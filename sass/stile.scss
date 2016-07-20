@@ -1,0 +1,125 @@
+@import "partial/mixins";
+@import "partial/variabili";
+
+#panreg {
+	
+	text-align:right;
+	margin-top:40px;
+	
+}
+.logo {
+	
+	padding:0px;
+}
+
+
+/* navbar */
+
+@media screen and (min-width: 768px)
+{
+	.navbar {
+		@include border-radius(0px);
+	}
+}
+
+
+@media screen and (max-width: 768px)
+{
+	.scrittalogo {display:none;}
+	#panreg {
+	
+	text-align:center;
+	margin-top:20px;
+	}
+	
+}
+
+
+
+.navbar-inverse {
+	
+	background: $colore_navbar_inverse;
+	border-color: $colore_bordo_navbar_inverse;
+	
+}
+
+.navbar-inverse .navbar-nav>li>a {
+    color: $colore_link_liv1_navbar;
+	&:hover {
+				color: $colore_link_liv1_navbar_hover;
+			}
+}
+
+
+.navbar-inverse .navbar-brand {
+    color: $colore_brand_navbar_inverse;
+}
+
+.navbar-inverse .navbar-nav>.active>a, .linkattivo {
+    color: $colore_navbar_active_link;
+    background-color: $colore_bg_navbar_active_link;
+}
+
+.navbar-inverse .navbar-nav>.active>a:focus {
+	@extend .linkattivo;
+}
+
+.navbar-inverse .navbar-nav>.active>a:hover {
+	@extend .linkattivo;
+}
+
+.navbar-inverse .navbar-nav>.open>a, .linkaperto  {
+    color: $colore_navbar_open_link;
+    background-color: $colore_bg_navbar_open_link;
+}
+
+.navbar-inverse .navbar-nav>.open>a:focus {
+	@extend .linkaperto;
+} 
+
+.navbar-inverse .navbar-nav>.open>a:hover {
+	@extend .linkaperto;
+}
+
+
+.navbar-inverse .navbar-collapse, .navbarcollass {
+    border-color: $color_form_collapse;
+	
+}
+
+.navbar-inverse .navbar-form {
+
+	@extend .navbarcollass;
+}
+
+@media (max-width: 767px)
+{
+	
+	
+	.navbar-inverse .navbar-nav .open .dropdown-menu>li>a {
+		color: $colore_link_schermi_piccoli;
+		
+	}
+
+	.navbar-inverse .navbar-nav .open .dropdown-menu>li>a:hover {
+		color: $colore_link_hover_schermi_piccoli;
+		
+	}
+
+
+}
+
+.navbar-inverse .navbar-toggle, .navtog {
+
+	background-color: $colore_bg_toggle_focus;
+	border-color:$colore_bordo_toggle;
+	&:hover {
+		border-color:$colore_bordo_toggle_focus;
+	}
+}
+
+.navbar-inverse .navbar-toggle:focus {
+
+	@extend .navtog;
+    border-color:#ffffff;
+}
