@@ -1,0 +1,58 @@
+.ricerca {
+	
+	
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	
+}
+
+@media screen and (max-width: 768px)
+{
+	
+	#send {width:100%;}
+}
+
+.tabella {
+	
+	margin-top:10px;
+}
+.colorehead {
+	
+	background: #3e7bb7;
+	color:#ffffff;
+}
+
+#datiadd{
+	position:absolute;
+	display:none;
+	background:#ffffff;
+	border:solid 4px #3e7bb7;
+	padding:10px;
+	top:3px;
+	left:10%;
+	width:80%;
+	height:95%;
+	border-radius:15px;
+	-moz-border-radius:15px;
+	-webkit-border-radius:15px;
+	overflow: auto;
+	
+}
+
+#datiupd{
+	position:absolute;
+	display:none;
+	background:#ffffff;
+	border:solid 4px #3e7bb7;
+	padding:10px;
+	top:3px;
+	left:10%;
+	width:80%;
+	height:95%;
+	border-radius:15px;
+	-moz-border-radius:15px;
+	-webkit-border-radius:15px;
+	overflow: auto;
+	
+}
