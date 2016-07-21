@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	include("configlocale.php");
 	include("{$dirsito}config.php");
 ?>
