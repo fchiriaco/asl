@@ -29,6 +29,11 @@ $campi_ricerca_tipo = array("denominazione" => "s","codfisc" => "s"); /* s per s
 $orderby = "denominazione";
 
 $max_num_rec_vis = 5;
+
+$campi_obbligatori_ins_upd = array("denominazione");
+$campi_unici_tabella = array("denominazione","codfisc");
+$tipo_campi_unici_tabella = array("s","s");
+
 $titolopg = "AZIENDE";
 
 

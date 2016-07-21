@@ -118,12 +118,14 @@ $(document).ready(function(){
 																			contentType: false,
 																			processData: false,
 																			success: function (returndata) {
-																						alert(returndata);
-																						$('#recstart').val(0);
-																						$('#contenitore').css("opacity","1");
-																						$('#datiadd').slideUp('slow');
-																						$('#sendricerca').trigger('click');
-																	
+																							alert(returndata);
+																							if(returndata.substr(0,6).toLowerCase() != "errore")
+																							{
+																								$('#recstart').val(0);
+																								$('#contenitore').css("opacity","1");
+																								$('#datiadd').slideUp('slow');
+																								$('#sendricerca').trigger('click');
+																							}
 																						}
 																		});
 																return false;
@@ -175,12 +177,14 @@ $(document).ready(function(){
 																			contentType: false,
 																			processData: false,
 																			success: function (returndata) {
-																						alert(returndata);
-																						$('#recstart').val(0);
-																						$('#contenitore').css("opacity","1");
-																						$('#datiupd').slideUp('slow');
-																						$('#sendricerca').trigger('click');
-																	
+																							alert(returndata);
+																							if(returndata.substr(0,6).toLowerCase() != "errore")
+																							{
+																								$('#recstart').val(0);
+																								$('#contenitore').css("opacity","1");
+																								$('#datiupd').slideUp('slow');
+																								$('#sendricerca').trigger('click');
+																							}
 																						}
 																		});
 																return false;

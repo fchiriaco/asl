@@ -11,6 +11,20 @@ if(!isset($_SESSION["aut"]) || ($_SESSION["aut"] != 1) || !isset($_SESSION["area
 }
 include($dirsito . "libreria/util_dbnew.php");
 $con = connessione(HOST,USER,PWD,DBNAME);
+
+
+/* controllo campi obbligatori non vuoti */
+foreach($campi_obbligatori_ins_upd as $v)
+{
+	if(!isset($_POST["upd-" . $v]) || (trim($_POST["upd-" . $v]) == ""))
+	{
+		echo "Errore: campo " . $v . " obbligatorio!!!";
+		exit;
+	}
+	
+}
+
+
 $campochiave = mysqli_real_escape_string($con,$_POST["campochiave"]);
 $sqlupdate = "update {$tabella} set ";
 

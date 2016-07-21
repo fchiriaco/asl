@@ -12,6 +12,59 @@ if(!isset($_SESSION["aut"]) || ($_SESSION["aut"] != 1) || !isset($_SESSION["area
 include($dirsito . "libreria/util_dbnew.php");
 $con = connessione(HOST,USER,PWD,DBNAME);
 
+
+/* controllo campi obbligatori non vuoti */
+foreach($campi_obbligatori_ins_upd as $v)
+{
+	if(!isset($_POST["add-" . $v]) || (trim($_POST["add-" . $v]) == ""))
+	{
+		echo "Errore: campo " . $v . " obbligatorio!!!";
+		exit;
+	}
+	
+}
+
+
+/* controllo record ripetuti */
+$stringa_query_univocita = "select * from {$tabella} where ";
+$i = 0;
+$campo_where_current = ""; 
+foreach($campi_unici_tabella as $v)
+{
+	switch($tipo_campi_unici_tabella[$i])
+	{
+		
+		case "s":
+			$campo_where_current = $v . " = '" .  mysqli_real_escape_string($con,$_POST["add-" . $v]) . "'";
+			break;
+		case "n":
+			$campo_where_current = $v . " = " .  mysqli_real_escape_string($con,$_POST["add-" . $v]);
+			break;
+		case "d":
+			$campo_where_current = $v . " = '" .  dataperdb2(mysqli_real_escape_string($con,$_POST["add-" . $v])) . "'";
+			break;
+	}
+	
+	if($i == 0)
+		
+		$stringa_query_univocita .= $campo_where_current;
+	else
+		$stringa_query_univocita .= " and " . $campo_where_current . " ";
+	
+	$i++;
+}
+	
+$rscheck = esegui_query($con,$stringa_query_univocita);
+if(numrec($rscheck) > 0 )
+{
+	echo "Errore: record duplicato, impossibile aggiungere";
+	exit;
+}	
+
+
+
+
+
 $sqlins = "insert into {$tabella} (";
 $sqlins2 = ") values (";
 $i = 0;
