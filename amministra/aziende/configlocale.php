@@ -10,7 +10,11 @@ $campi_tabella = array("Ragione sociale" => "denominazione",
 					   "Indirizzo" => "indirizzo","Attiv. Econ. ATECO" => "attecateco",
 					   "Rappr. Legale" => "rapprlegale","Cod. Fiscale" => "codfisc","Telefono" => "telefono",
 					   "E-Mail" =>"email","Sito web" => "web");
+
 					   
+$tipo_campi_tabella = array("denominazione" => "s","indirizzo" => "s",
+							"attecateco" => "s","rapprlegale" => "s","codfisc" => "s","telefono" => "s",
+							"email" => "s","web" => "s");
 
 /* campi da visualizzare sotto forma di tabella - chiave/valore */
    

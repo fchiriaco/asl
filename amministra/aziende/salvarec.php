@@ -73,7 +73,12 @@ foreach($campi_tabella as $v)
 	$sqlins .= ($i == 0) ? $v  : "," . $v;
 	
 	$campo = mysqli_real_escape_string($con,$_POST["add-" . $v]);
-	$sqlins2 .= ($i == 0) ? "'" . $campo . "'" : "," . "'" . $campo . "'";
+	if($tipo_campi_tabella[$v] == "s")
+		$sqlins2 .= ($i == 0) ? "'" . $campo . "'" : "," . "'" . $campo . "'";
+	else if($tipo_campi_tabella[$v] == "d")
+		$sqlins2 .= ($i == 0) ? "'" . dataperdb2($campo) . "'" : "," . "'" . dataperdb2($campo) . "'";
+	else
+		$sqlins2 .= ($i == 0) ? "" . $campo : "," . $campo;
 	$i++;
 }
 

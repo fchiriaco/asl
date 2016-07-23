@@ -33,7 +33,12 @@ foreach($campi_tabella as $v)
 {
 		
 	$campo = mysqli_real_escape_string($con,$_POST["upd-" . $v]);
-	$sqlupdate  .= ($i == 0) ? $v . "= '" . $campo . "'" : "," . $v . "= '" . $campo . "'";
+	if($tipo_campi_tabella[$v] == "s")
+		$sqlupdate  .= ($i == 0) ? $v . "= '" . $campo . "'" : "," . $v . "= '" . $campo . "'";
+	else if($tipo_campi_tabella[$v] == "d")
+		$sqlupdate  .= ($i == 0) ? $v . "= '" . dataperdb2($campo) . "'" : "," . $v . "= '" . dataperdb2($campo) . "'";
+	else
+		$sqlupdate  .= ($i == 0) ? $v . "= " . $campo : "," . $v . "= " . $campo ;
 	$i++;
 }
 
