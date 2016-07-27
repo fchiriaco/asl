@@ -66,23 +66,105 @@ if(numrec($rscheck) > 0 )
 
 
 $sqlins = "insert into {$tabella} (";
-$sqlins2 = ") values (";
+if(isset($crea_account) && $crea_account == 1)
+	$sqlins2 = ",idutente) values (";
+else
+	$sqlins2 = ") values (";
 $i = 0;
+
+if(isset($crea_account) && $crea_account == 1)
+{
+	
+	$stringa_ins_utente = "insert into {$tabella_utenti}(";
+	$stringa2_ins_utente = ") values (";
+	$j = 0;
+	$last_id_user;
+	function check_user($con,$tabella_ut,$nomecampouser,$valorecampouser)
+	{
+		$sql = "select * from {$tabella_ut} where {$nomecampouser} = '{$valorecampouser}'";
+		$rs = esegui_query($con,$sql);
+		if(numrec($rs) > 0)
+			return false;
+		else
+			return true;
+		
+	}
+	foreach($campi_account as $v)
+	{
+		
+		$stringa_ins_utente .= ($j == 0) ? $v: "," . $v;
+		$campo = mysqli_real_escape_string($con,$_POST["add-" . $v]);
+		if(trim($campo) == "")
+		{
+			echo "Errore campo " . $v . " obbligatorio!!!";
+			exit;
+		}
+		if($tipo_campi_account[$v] == "s")
+		{
+			
+			$stringa2_ins_utente .= ($j == 0) ? "'" . $campo . "'" : "," . "'" . $campo . "'";
+		}
+		elseif($tipo_campi_account[$v] == "d")
+		{
+			$stringa2_ins_utente .= ($j == 0) ? "'" . dataperdb2($campo) . "'" : "," . "'" . dataperdb2($campo) . "'";
+		}
+		elseif($tipo_campi_account[$v] == "p")
+		{
+			
+			$stringa2_ins_utente .= ($j == 0) ? "password('" . $campo . "')" : ",password('" . $campo . "')";
+		}
+		else
+		{
+			$stringa2_ins_utente .= ($j == 0) ? "" . $campo : "," . $campo;
+		}
+		
+		$j++;	
+	}
+	$valorecampouser =  mysqli_real_escape_string($con,$_POST["add-" . $campo_nome_utente]);
+	$stringa2_ins_utente .= ")";
+	$stringa_ins_utente .= $stringa2_ins_utente;
+	if(check_user($con,$tabella_utenti,$campo_nome_utente,$valorecampouser) === false)
+	{
+		echo "Errore nome utente occupato";
+		exit;
+	}
+	$ret = esegui_query($con,$stringa_ins_utente);
+	if($ret === false)
+	{
+		echo "Errore!!";
+		exit;
+	}
+	$lastidutente = mysqli_insert_id($con);
+	
+	$sqlaree = "insert into {$tabella_aree_autorizzazione} values (?,?,?)";
+	$stmt = $con->prepare($sqlaree);
+	$stmt->bind_param("ssi",$area,$lastidutente,$level);
+	$k = 0;
+	foreach($aree_autorizzate as $area)
+	{
+		$level = $livello[$k];
+		$stmt->execute();
+	}
+}
+
 foreach($campi_tabella as $v)
 {
+		
 	$sqlins .= ($i == 0) ? $v  : "," . $v;
 	
 	$campo = mysqli_real_escape_string($con,$_POST["add-" . $v]);
 	if($tipo_campi_tabella[$v] == "s")
 		$sqlins2 .= ($i == 0) ? "'" . $campo . "'" : "," . "'" . $campo . "'";
-	else if($tipo_campi_tabella[$v] == "d")
+	elseif($tipo_campi_tabella[$v] == "d")
 		$sqlins2 .= ($i == 0) ? "'" . dataperdb2($campo) . "'" : "," . "'" . dataperdb2($campo) . "'";
 	else
 		$sqlins2 .= ($i == 0) ? "" . $campo : "," . $campo;
 	$i++;
 }
-
-$sqlins .= $sqlins2 . ")";
+if(isset($crea_account) && $crea_account == 1)
+	$sqlins .= $sqlins2 . ",{$lastidutente})";
+else
+	$sqlins .= $sqlins2 . ")";
 
 $ret = esegui_query($con,$sqlins);
 if($ret === false)

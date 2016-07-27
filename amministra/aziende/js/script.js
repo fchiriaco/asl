@@ -81,7 +81,7 @@ $(document).ready(function(){
 						$(document).on('click','#addrec',function(e){
 							
 							
-							
+							$('.canreset').val('');
 							$('#contenitore').css("opacity","0.2");
 							$(document).scrollTop(0);
 							$('#datiadd').slideDown('slow');
