@@ -1,10 +1,9 @@
 <?php
-include("../config.php");
-include("../libreria/util_db.php");
-include("../libreria/util_func2.php");
-include("../libreria/util_form.php");
-/* aggiunta area privata */
-include("area_privata_docenti.php");
+include("configlocale.php");
+include("{$dirsito}config.php");
+include($dirsito ."libreria/util_func2.php");
+include($dirsito . "libreria/util_dbnew.php");
+include($dirsito . "libreria/util_form.php");
 
 
 $messaggio = "Compilare tutti i campi del modulo e cliccare sul pulsante esegui";
@@ -32,15 +31,17 @@ function check_auth_ldap($login,$password)
 
 if(isset($_POST["submit"]))
 {
-	$login=addslashes(trim($_REQUEST["login"]));
-	$pwd=addslashes(trim($_REQUEST["pwd"]));
-	$pwd1=addslashes(trim($_REQUEST["pwd1"]));
-	$pwd2=addslashes(trim($_REQUEST["pwd2"]));
+	
+	$con = connessione(HOST,USER,PWD,DBNAME);
 
-	$con = connessione($hostmysql,$usermysql,$pwdmysql,$dbmysql);
+	$login=mysqli_real_escape_string($con,trim($_REQUEST["login"]));
+	$pwd=mysqli_real_escape_string($con,trim($_REQUEST["pwd"]));
+	$pwd1=mysqli_real_escape_string($con,trim($_REQUEST["pwd1"]));
+	$pwd2=mysqli_real_escape_string($con,trim($_REQUEST["pwd2"]));
 
+	
 	$qry = "select * from utenti where username = '{$login}' and password = PASSWORD('{$pwd}')";
-	$rs = esegui_query($qry);
+	$rs = esegui_query($con,$qry);
 	
 	if ($login=="root")
   		$login="";
@@ -70,7 +71,7 @@ if(isset($_POST["submit"]))
       					$messaggio= "Problemi tecnici per il cambio password";
 				*/
 				$qry2 = "update utenti set password = PASSWORD('{$pwd1}') where username = '{$login}'";
-				esegui_query($qry2);
+				esegui_query($con,$qry2);
 				/* aggiunta area privata docenti */
 
 				/* crea_file_htpasswd($login,crypt($pwd1),"../docenti/gestfileprivati/fprivati/"); */
@@ -82,21 +83,17 @@ if(isset($_POST["submit"]))
 	}
 }
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="it">
 <head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <meta http-equiv="Cache-Control" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
-<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link rel="stylesheet" type="text/css" href="../stilenuovo.css" />
-<link rel="stylesheet" type="text/css" href="../nuovocss.css" />
-<!--[if LT IE 7]><link rel="stylesheet" type="text/css" href="../css/iefix.css" /><![endif]-->
+<link type="text/css" href="<?php echo $dirsitoscript; ?>bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link type="text/css" href="<?php echo $dirsitoscript; ?>css/stile.css" rel="stylesheet" media="screen">
 <title>Cambio password</title>
-<script type="text/javascript" src="./ajax.js"></script>
-<script type="text/javascript" src="../javascript/onfocus.js"></script>
 <script type="text/javascript">
 function valida()
 {
@@ -115,13 +112,20 @@ function valida()
 </script>
 </head>
 <body>
-<div class="container">
-  <div class="row">
-	<div class="col-md-12" id="menu"><?php include("../barramenu.php") ?></div>
-  </div>
+<div class="container-fluid">
+	<div class="row bg-info">
+		<div class="col-xs-12 col-sm-6 col-lg-4 logo text-center">
+			<?php include("{$dirsito}logo.php"); ?>
+		</div>
+	</div>	
+	<div class="row">
+		<div class="col-xs-12" style="padding:0px;">
+			<?php include($dirsito . "navbar.php"); ?>
+		</div>
+	</div>
   
   <div class="row">
-	<div class="col-md-12" id="menu">
+	<div class="col-xs-12 col-sm-offset-2 col-sm-8 col-sm-offset-2" id="menu">
 		<div style="position:relative;text-align:center;margin:0px 0px;padding:0px;color:#000000;z-index:4;">
 			<h3 class="centro alert alert-info" >Cambio password</h3>
 		</div>
@@ -134,7 +138,7 @@ function valida()
 		$campi[] = array("tipo" => "password","valore" => "","lunghezza" => 40,"nome" => "pwd1","etichetta" => "Nuova password");
 		$campi[] = array("tipo" => "password","valore" => "","lunghezza" => 40,"nome" => "pwd2","etichetta" => "Ripetere nuova password");
 		$campi[] = array("tipo" => "submit","valore" => "Esegui","lunghezza" => 20,"nome" => "submit","etichetta" => "");
-		form_generica($campi,"change","",$_SERVER["PHP_SELF"],"mytable31bis","stile3",1,1,"valida()");
+		form_generica($campi,"change","",$_SERVER["PHP_SELF"],"table table-responsive","form-control",1,1,"valida()");
 		?>
 
 		</div>
@@ -152,7 +156,11 @@ function valida()
 
 
 
-<script src="../bootstrap/js/jquery-1.10.2.min.js"></script>
-  <script src="../bootstrap/js/bootstrap.min.js"></script>
+<script src="<?php echo $dirsitoscript; ?>js/jquery-1.11.3.min.js"></script>
+  <script src="<?php echo $dirsitoscript; ?>bootstrap/js/bootstrap.min.js"></script>
+  <script>
+	$('input:submit').addClass("btn btn-info");
+	
+  </script>
 </body>
 </html>

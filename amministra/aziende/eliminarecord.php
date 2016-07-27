@@ -38,12 +38,16 @@ if(!$ret)
 	echo "Errore!!";
 else
 {
-	
-	$sql = "delete from {$tabella_utenti} where {$campo_chiave_utenti} = " . (($tipo_chiave_utenti == "s") ? "'" . $utcorrente . "'" : $utcorrente);
-	$ret = esegui_query($con,$sql);
-	if(!$ret)
-		echo "Errore!!";
-	else
-		echo "Record Cancellato con successo";
+	if(isset($crea_account) && $crea_account == 1)
+	{
+		$sql = "delete from {$tabella_utenti} where {$campo_chiave_utenti} = " . (($tipo_chiave_utenti == "s") ? "'" . $utcorrente . "'" : $utcorrente);
+		$ret = esegui_query($con,$sql);
+		if(!$ret)
+			echo "Errore!!";
+		else
+			echo "Record Cancellato con successo";
+		exit;
+	}
+	echo "Record Cancellato con successo";
 }
 ?>
