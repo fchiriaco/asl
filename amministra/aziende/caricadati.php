@@ -55,7 +55,6 @@ $arricerca = array();
 $partewhere = "";
 $passati_valori_ricerca = false;
 $righe = intval($_POST["righe"]);
-
 if(!is_numeric($righe))
 {
 	$righe = $max_num_rec_vis;
@@ -65,7 +64,9 @@ if(!is_numeric($startrec))
 {
 	$startrec = 0;
 }
-if(isset($_POST["campiricerca"]) && !empty(trim($_POST["campiricerca"])))
+
+$cricerca =  trim($_POST["campiricerca"]) . "";
+if(!empty($cricerca))
 {
 	$arricerca = explode("|",$_POST["campiricerca"]);
 	$passati_valori_ricerca = true;

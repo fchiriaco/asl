@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	
 	
-						carica_dati();
+						carica_dati("");
 						
 						$(document).on('click','.delete',function(e){
 							e.preventDefault();

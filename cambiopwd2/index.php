@@ -159,7 +159,7 @@ function valida()
 <script src="<?php echo $dirsitoscript; ?>js/jquery-1.11.3.min.js"></script>
   <script src="<?php echo $dirsitoscript; ?>bootstrap/js/bootstrap.min.js"></script>
   <script>
-	$('input:submit').addClass("btn btn-info");
+	$('input:submit').addClass("btn btn-primary");
 	
   </script>
 </body>
