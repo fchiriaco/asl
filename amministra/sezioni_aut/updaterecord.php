@@ -128,7 +128,6 @@ foreach($campi_tabella as $v)
 		$sqlupdate  .= ($i == 0) ? $v . "= " . $campo : "," . $v . "= " . $campo ;
 	$i++;
 }
-
 if($tipo_chiave == "s")
 	$sqlupdate .= " where {$campo_chiave} = '{$campochiave}'";
 else

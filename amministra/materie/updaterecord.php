@@ -129,7 +129,10 @@ foreach($campi_tabella as $v)
 	$i++;
 }
 
-$sqlupdate .= " where {$campo_chiave} = {$campochiave}";
+if($tipo_chiave == "s")
+	$sqlupdate .= " where {$campo_chiave} = '{$campochiave}'";
+else
+	$sqlupdate .= " where {$campo_chiave} = {$campochiave}";
 
 $ret = esegui_query($con,$sqlupdate);
 if($ret === false)

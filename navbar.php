@@ -22,6 +22,7 @@
 				<li><a href="#">Classi</a></li>
 				<li><a href="<?php echo $dirsitoscript ?>amministra/materie/index.php">Materie</a></li>
 				<li><a href="<?php echo $dirsitoscript ?>amministra/aziende/index.php">Aziende</a></li>
+				<li><a href="<?php echo $dirsitoscript ?>amministra/sezioni_aut/index.php">Aree riservate</a></li>
 			</ul>
 		</li>
       <!--  <li><a href="#">Page 2</a></li> 

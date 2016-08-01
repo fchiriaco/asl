@@ -12,7 +12,10 @@ if(!isset($_SESSION["aut"]) || ($_SESSION["aut"] != 1) || !isset($_SESSION["area
 include($dirsito . "libreria/util_dbnew.php");
 $con = connessione(HOST,USER,PWD,DBNAME);
 $chiave = mysqli_real_escape_string($con,$_POST["chiave"]);
-$sql = "select * from {$tabella} where {$campo_chiave} = {$chiave}";
+if($tipo_chiave == "s")
+	$sql = "select * from {$tabella} where {$campo_chiave} = '{$chiave}'";
+else
+	$sql = "select * from {$tabella} where {$campo_chiave} = {$chiave}";
 $rs = esegui_query($con,$sql);
 $r = getrecord($rs);
 
