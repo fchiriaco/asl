@@ -20,7 +20,7 @@
 				<li><a href="#">Docenti</a></li>
 				<li><a href="#">Sedi</a></li>
 				<li><a href="#">Classi</a></li>
-				<li><a href="#">Materie</a></li>
+				<li><a href="<?php echo $dirsitoscript ?>amministra/materie/index.php">Materie</a></li>
 				<li><a href="<?php echo $dirsitoscript ?>amministra/aziende/index.php">Aziende</a></li>
 			</ul>
 		</li>
