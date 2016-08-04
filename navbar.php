@@ -18,8 +18,8 @@
 			<ul class="dropdown-menu">
 				<li><a href="<?php echo $dirsitoscript ?>amministra/alunni/index.php">Alunni</a></li>
 				<li><a href="#">Docenti</a></li>
-				<li><a href="#">Sedi</a></li>
-				<li><a href="#">Classi</a></li>
+				<li><a href="<?php echo $dirsitoscript ?>amministra/sedi/index.php">Sedi</a></li>
+				<li><a href="<?php echo $dirsitoscript ?>amministra/classi/index.php">Classi</a></li>
 				<li><a href="<?php echo $dirsitoscript ?>amministra/materie/index.php">Materie</a></li>
 				<li><a href="<?php echo $dirsitoscript ?>amministra/aziende/index.php">Aziende</a></li>
 				<li><a href="<?php echo $dirsitoscript ?>amministra/sezioni_aut/index.php">Aree riservate</a></li>
