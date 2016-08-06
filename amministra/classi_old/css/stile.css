@@ -1,0 +1,159 @@
+#contenitore {
+				margin:0px;
+				padding:0px;
+				width:100%;
+
+}
+
+
+div.contenuti {
+				position:relative;
+				font-family:helvetica,arial,verdana,sans-serif;
+				font-size:1em;
+				padding:1px 3px;
+				margin:2px;
+				border:solid 2px #000022;
+				width:99%;
+				min-height:550px;
+				height: auto !important;
+				height:550px;
+				background:#FFF5EE;
+				overflow:auto;
+				
+}
+
+
+
+
+a.link1 {
+				text-decoration:none;
+				color:#000022;
+				
+}
+
+a.link1:hover {
+			background-color:#800000;
+			color:#ffffff;
+}
+
+
+
+
+a.link2  {
+				text-decoration:none;
+				background-color:#000022;
+				color:#ffffff;
+				
+}
+
+a.link2:hover {
+			background-color:#FF0000;
+			color:#000022;
+}
+
+a.link3 {
+				text-decoration:none;
+				color:#000000;
+				background:#c0c0c0;
+				font-weight:bold;
+				
+}
+
+a.link3:hover {
+			background-color:#800000;
+			color:#ffffff;
+}
+
+#info-nav{
+	margin: 0;
+	padding: 3px 0;
+	width: 100%;
+	list-style: none;
+}
+#info-nav li{
+	display: inline;
+	background: #ccc;
+	border: 1px solid #888;
+	border-bottom: 0;
+	margin-right:2px;
+	padding: 3px;
+	
+}
+#info-nav li a {
+ text-decoration:none;
+ color:#0000CD;
+}
+
+
+#info-nav li a:hover{
+	color:#d15600;
+}
+#info-nav li.current{ 
+	background: #fff;
+  padding-bottom: 4px;
+  
+}
+
+table.tabella {
+				border:none;
+				background:#ffffff;
+				font-size:0.80em;
+				
+}
+table.tabella th{
+				border:solid 1px #00008B;
+				border-bottom:solid 1px #00008B;
+				background:#c0c0c0;
+				
+}
+
+table.tabella td{
+				border:solid 1px #00008B;
+				
+				padding:2px;
+}
+
+table.tabella td.centro{
+				text-align:center;
+}
+
+
+table.tabella td.destra{
+				text-align:right;
+}
+
+
+
+
+table.tabella2 {
+				border:none;
+				background:#7FFFD4;
+				width:100%;
+				font-size:0.80em;
+				
+}
+table.tabella2 th{
+				border:solid 1px #00008B;
+				border-bottom:solid 1px #00008B;
+				background:#c0c0c0;
+				
+}
+
+table.tabella2 td{
+				border:solid 1px #00008B;
+				
+				padding:2px;
+}
+
+table.tabella2 td.centro{
+				text-align:center;
+}
+
+
+table.tabella2 td.destra{
+				text-align:right;
+}
+
+
+
+

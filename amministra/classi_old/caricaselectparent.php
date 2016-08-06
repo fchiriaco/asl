@@ -12,7 +12,7 @@ if(!isset($con))
 
 
 		
-function optsel($con,$val,$tabella,$ordine,$campoidesterno,$campiparent)
+function optsel($con,$val,$tabella,$ordine,$campiid,$campiparent)
 {
 	$sql = "select * from {$tabella} order by {$ordine}";
 	$rs = esegui_query($con,$sql);
@@ -20,7 +20,7 @@ function optsel($con,$val,$tabella,$ordine,$campoidesterno,$campiparent)
 	$elenco = "<option value=\"0\">Seleziona da elenco</option>";
 	while($r = getrecord($rs))
 	{
-		if($r[$campoidesterno] == $val)
+		if($r[$campiid["tabparent"]] == $val)
 			$elenco .= "<option value=\"{$r[$campiparent[0]]}\" selected=\"selected\">{$r[$campiparent[1]]}</option>";
 		else
 			$elenco .= "<option value=\"{$r[$campiparent[0]]}\">{$r[$campiparent[1]]}</option>";
@@ -29,7 +29,7 @@ function optsel($con,$val,$tabella,$ordine,$campoidesterno,$campiparent)
 }
 
 $valselect = intval($_POST["idparent"]);
-$colonna2 = optsel($con,$valselect,$tabparent,$ordine["tabparent"],$campiid["tabparent"],$campiparent);
+$colonna2 = optsel($con,$valselect,$tabparent,$ordine["tabparent"],$campiid,$campiparent);
 $stringa = "<select class=\"form-control\" id=\"b0\">{$colonna2}</select>";
 echo $stringa;
 ?>

@@ -12,7 +12,7 @@ if(!isset($con))
 
 
 		
-function optsel($con,$val,$tabella,$ordine,$campoidesterno,$campiparent)
+function optsel2($con,$val,$tabella,$ordine,$campoidesterno,$campiparent)
 {
 	$sql = "select * from {$tabella} order by {$ordine}";
 	$rs = esegui_query($con,$sql);
@@ -21,16 +21,16 @@ function optsel($con,$val,$tabella,$ordine,$campoidesterno,$campiparent)
 	while($r = getrecord($rs))
 	{
 		if($r[$campoidesterno] == $val)
-			$elenco .= "<option value=\"{$r[$campiparent[0]]}\" selected=\"selected\">{$r[$campiparent[1]]}</option>";
+			$elenco .= "<option value=\"{$r[$campiparent[0]]}\" selected=\"selected\">{$r[$campiparent[1]]} {$r[$campiparent[2]]}</option>";
 		else
-			$elenco .= "<option value=\"{$r[$campiparent[0]]}\">{$r[$campiparent[1]]}</option>";
+			$elenco .= "<option value=\"{$r[$campiparent[0]]}\">{$r[$campiparent[1]]} {$r[$campiparent[2]]}</option>";
 	}
 	return $elenco;
 }
 
 $valselect = intval($_POST["idparent"]);
-$colonna2 = optsel($con,$valselect,$tabparent,$ordine["tabparent"],$campiid["tabparent"],$campiparent);
-$stringa = "<select class=\"form-control\" id=\"b0\">{$colonna2}</select>";
+$colonna5 = optsel2($con,$valselect,$tabparent2,$ordine["tabparent2"],$campiid["tabparent2"],$campiparent2);
+$stringa = "<select class=\"form-control\" id=\"e0\">{$colonna5}</select>";
 echo $stringa;
 ?>
 

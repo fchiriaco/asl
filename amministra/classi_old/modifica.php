@@ -16,8 +16,6 @@ $campo1 = htmlentities(addslashes(trim($_POST["campo1"]))) . "";
 $campo2 = intval(htmlentities(addslashes(trim($_POST["campo2"]))));
 $campo3 = htmlentities(addslashes(trim($_POST["campo3"]))) . "";
 $campo4 = intval(htmlentities(addslashes(trim($_POST["campo4"]))));
-$campo5 = intval(htmlentities(addslashes(trim($_POST["campo5"]))));
-
 
 if($campo2 == 0)
 {
@@ -34,8 +32,7 @@ if($campo3 == "")
 	echo "Dati incompleti...";
 	exit;	
 }
-
-$sql = "insert into {$tabchild} values (null,'{$campo1}','{$campo3}',{$campo4},{$campo2},{$campo5})";
+$sql = "update {$tabchild} set {$campo_chiave_esterna_child} = {$campo2},{$campichild[1]} = '{$campo1}',{$campichild[2]} = '{$campo3}',{$campichild[3]} = {$campo4} where {$campiid["tabchild"]} = {$_POST["id"]}";
 $rs = esegui_query($con,$sql);
 if(!$rs)
 {
@@ -43,4 +40,6 @@ if(!$rs)
 	exit;
 }
 echo "Dati modificati con successo!";
+
+
 ?>

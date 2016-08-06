@@ -12,7 +12,7 @@ if(!isset($con))
 
 
 		
-function optsel($con,$val,$tabella,$ordine,$campoidesterno,$campiparent)
+function optsel($con,$val,$tabella,$ordine,$campiid,$campiparent)
 {
 	$sql = "select * from {$tabella} order by {$ordine}";
 	$rs = esegui_query($con,$sql);
@@ -20,7 +20,7 @@ function optsel($con,$val,$tabella,$ordine,$campoidesterno,$campiparent)
 	$elenco = "<option value=\"0\">Seleziona da elenco</option>";
 	while($r = getrecord($rs))
 	{
-		if($r[$campoidesterno] == $val)
+		if($r[$campiid["tabparent"]] == $val)
 			$elenco .= "<option value=\"{$r[$campiparent[0]]}\" selected=\"selected\">{$r[$campiparent[1]]}</option>";
 		else
 			$elenco .= "<option value=\"{$r[$campiparent[0]]}\">{$r[$campiparent[1]]}</option>";
@@ -28,30 +28,13 @@ function optsel($con,$val,$tabella,$ordine,$campoidesterno,$campiparent)
 	return $elenco;
 }
 
-function optsel2($con,$val,$tabella,$ordine,$campoidesterno,$campiparent)
-{
-	$sql = "select * from {$tabella} order by {$ordine}";
-	$rs = esegui_query($con,$sql);
-	
-	$elenco = "<option value=\"0\">Seleziona da elenco</option>";
-	while($r = getrecord($rs))
-	{
-		if($r[$campoidesterno] == $val)
-			$elenco .= "<option value=\"{$r[$campiparent[0]]}\" selected=\"selected\">{$r[$campiparent[1]]} {$r[$campiparent[2]]}</option>";
-		else
-			$elenco .= "<option value=\"{$r[$campiparent[0]]}\">{$r[$campiparent[1]]} {$r[$campiparent[2]]}</option>";
-	}
-	return $elenco;
-}
-
-
 
 
 
 
 
 $strtabella = "<table class=\"table table-responsive\" id=\"tchild\"><thead>";
-$strtabella .= "<tr><th>{$campichilddesc[1]}</th><th>{$campiparentdesc[1]}</th><th>{$campichilddesc[2]}</th><th>{$campichilddesc[3]}</th><th>{$campiparentdesc2[1]}</th>";
+$strtabella .= "<tr><th>{$campichilddesc[1]}</th><th>{$campiparentdesc[1]}</th><th>{$campichilddesc[2]}</th><th>{$campichilddesc[3]}</th>";
 	if(isset($_SESSION["aut"]) &&($_SESSION["aut"] == 1) && isset($_SESSION["area"]) && (strpos($_SESSION["area"],$areaaut) !== false ) && isset($_SESSION["amministratore"][$areaaut]) && ($_SESSION["amministratore"][$areaaut] == 1)) 
 	{
 		 $strtabella .= "<th style=\"text-align:center;\">MODIFICA</th>";
@@ -67,16 +50,14 @@ $strtabella .= "<tr><th>{$campichilddesc[1]}</th><th>{$campiparentdesc[1]}</th><
 	$riga = 0;	
 	while($r = getrecord($rs))
 	{
-			$colonna2 = optsel($con,$r[$campo_chiave_esterna_child],$tabparent,$ordine["tabparent"],$campiid["tabparent"],$campiparent);
+			$colonna2 = optsel($con,$r[$campo_chiave_esterna_child],$tabparent,$ordine["tabparent"],$campiid,$campiparent);
 			$colonna1 = $r[$campichild[1]];
 			$colonna3 = $r[$campichild[2]];
 			$colonna4 = $r[$campichild[3]];
-			$colonna5 = optsel2($con,$r[$campo_chiave_esterna_child2],$tabparent2,$ordine["tabparent2"],$campiid["tabparent2"],$campiparent2);
 			$strtabella .= "<tr class=\"riga{$riga}\"><td><input type=\"hidden\" value=\"{$r["idchild"]}\" id=\"i{$r["idchild"]}\" /><input class=\"form-control\" type=\"text\" id=\"a{$r["idchild"]}\" value=\"{$colonna1}\" /></td>";
 			$strtabella .= "<td><select class=\"form-control\" id=\"b{$r["idchild"]}\">{$colonna2}</select></td>";
 			$strtabella .= "<td><input type=\"text\" class=\"form-control\" id=\"c{$r["idchild"]}\" value=\"{$colonna3}\"></td>";
 			$strtabella .= "<td><input type=\"text\" class=\"form-control\" id=\"d{$r["idchild"]}\" value=\"{$colonna4}\"></td>";
-			$strtabella .= "<td><select class=\"form-control\" id=\"e{$r["idchild"]}\">{$colonna5}</select></td>";
 			
 			if(isset($_SESSION["aut"]) &&($_SESSION["aut"] == 1) && isset($_SESSION["area"]) && (strpos($_SESSION["area"],$areaaut) !== false ) && isset($_SESSION["amministratore"][$areaaut]) && ($_SESSION["amministratore"][$areaaut] == 1)) 
 			{
@@ -92,7 +73,6 @@ $strtabella .= "<tr><th>{$campichilddesc[1]}</th><th>{$campiparentdesc[1]}</th><
 		$strtabella .= "<td id=\"selectparent\">&nbsp;</td>";
 		$strtabella .= "<td><input type=\"text\" class=\"form-control\" id=\"c0\" value=\"\"></td>";
 		$strtabella .= "<td><input type=\"text\" class=\"form-control\" id=\"d0\" value=\"\"></td>";
-		$strtabella .= "<td id=\"selectparent2\">&nbsp;</td>";
 		
 		if(isset($_SESSION["aut"]) &&($_SESSION["aut"] == 1) && isset($_SESSION["area"]) && (strpos($_SESSION["area"],$areaaut) !== false ) && isset($_SESSION["amministratore"][$areaaut]) && ($_SESSION["amministratore"][$areaaut] == 1)) 
 			{

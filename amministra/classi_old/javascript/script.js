@@ -126,14 +126,6 @@ $(document).ready(function(){
 			$('body').scrollTop(valscroll);
 		});
 		
-		$.post('caricaselectparent2.php',{'idparent':'0'},function(data) {
-			$('#selectparent2').html(data);
-			valscroll = $('#rigaadd').offset().top;
-			
-			$('body').scrollTop(valscroll);
-		});
-		
-				
 		e.preventDefault();
 		
 		
@@ -199,8 +191,8 @@ function modifica(obj)
 		}
 		campo3 = $('#c'+ id).val() + "";
 		campo4 = $('#d'+ id).val() + "";
-		campo5 = parseInt($('#e'+ id).val());
-		$.post("modifica.php",{'id':id,'campo1':campo1,'campo2':campo2,'campo3':campo3,'campo4':campo4,'campo5':campo5},function (data){
+		
+		$.post("modifica.php",{'id':id,'campo1':campo1,'campo2':campo2,'campo3':campo3,'campo4':campo4},function (data){
 			
 			alert(data);
 			$('#' + nomecamposelecttabparent).trigger('change');
@@ -227,9 +219,8 @@ function aggiungirigachild(obj)
 		}
 		campo3 = $('#c0').val() + "";
 		campo4 = $('#d0').val() + "";
-		campo5 = parseInt($('#e0').val());
 		
-		$.post("addchild.php",{'campo1':campo1,'campo2':campo2,'campo3':campo3,'campo4':campo4,'campo5':campo5},function (data){
+		$.post("addchild.php",{'campo1':campo1,'campo2':campo2,'campo3':campo3,'campo4':campo4},function (data){
 			
 			alert(data);
 			$('#' + nomecamposelecttabparent).trigger('change');
