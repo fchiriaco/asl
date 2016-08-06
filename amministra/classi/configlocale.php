@@ -1,57 +1,32 @@
 <?php
 $dirsito = $_SERVER["DOCUMENT_ROOT"] . "/siti/asl/";
+
 $areaaut = "admin";
 
-$tabella = "classi";
+$tabparent = "sedi";
 
-/* campi da visualizzare in fase di inserimento  - chiave/valore */
+$tabchild = "classi";
 
-$campi_tabella = array("Classe" => "nome_classe","Indirizzo" => "indirizzo","Anno corso" => "anno_classe");
+$ordine = array("tabparent"=>"nome_sede","tabchild" =>"indirizzo,anno_classe");
 
+$campiid = array("tabparent"=>"id","tabchild" =>"id");
 
-$tipo_campi_tabella = array("nome_classe" => "s","indirizzo" => "s","anno_classe" => "n");			   
+$campo_chiave_esterna_child = "idsede";
 
-/* questa parte gestisce la creazione di un account utente associato ad ogni riga della tabella */
-$crea_account = 0;
-if($crea_account == 1)
-{
-	$campi_account = array("Nome Utente" => "username","Password" => "password");
-	$tipo_campi_account = array("username" => "s","password" => "p"); /* p sta per password */
-	$tabella_utenti = "utenti";
-	$campo_nome_utente = "username";
-	$tabella_aree_autorizzazione = "aree_aut";
-	$aree_autorizzate = array("aziende");
-	$livello = array(0);
-	$campo_chiave_utenti = "id";
-	$tipo_chiave_utenti = "n";
-	/* chiave esterna su tabella principale collegata a campo chiave utenti */
-	$chiave_esterna_utente = "idutente";
-	$tipo_chiave_esterna = "n";
-}
+$campiparent = array("id","nome_sede","indirizzo","telefono","email","responsabile");
+$campiparentdesc = array("Id","Sede","Indirizzo","Telefono","Email","Responsabile");
 
-					   
+$campichild = array("id","nome_classe","indirizzo_studio","anno_classe","idsede");
+$campichilddesc = array("Id","Classe","Indirizzo studio","Anno classe","Id sede");
 
 
-/* campi da visualizzare sotto forma di tabella - chiave/valore */
-   
-$campi_tabella_righe = array("Classe" => "nome_classe","Indirizzo" => "indirizzo","Anno corso" => "anno_classe");
+$titolo = "Classi Istituto";
 
-$campo_chiave = "id";
-$tipo_chiave = "n"; /* s per stringhe - d per date - n per numeri */
+$testoaddrecchild = "Inserisci nuova classe";
 
+$testoaddrecparent = "Salva Sede";
 
-$campi_ricerca = array("Classe" => "nome_classe","Indirizzo" => "indirizzo", "Anno corso" => "anno_classe");
-$campi_ricerca_tipo = array("nome_classe" => "s","indirizzo" => "s","anno_classe" => "n");  /* s per stringhe - d per date - n per numeri */
-$orderby = "anno_classe";
+$testobtnrinuncia = "Annulla inserimento";
 
-$max_num_rec_vis = 5;
-
-$campi_obbligatori_ins_upd = array("nome_classe","indirizzo","anno_classe");
-// $campi_unici_tabella = array("materia");
-//$tipo_campi_unici_tabella = array("s");
-
-$titolopg = "CLASSI";
-
-
-
+$paginaindice = "../../index.php";
 ?>
