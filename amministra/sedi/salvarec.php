@@ -157,6 +157,8 @@ foreach($campi_tabella as $v)
 		$sqlins2 .= ($i == 0) ? "'" . $campo . "'" : "," . "'" . $campo . "'";
 	elseif($tipo_campi_tabella[$v] == "d")
 		$sqlins2 .= ($i == 0) ? "'" . dataperdb2($campo) . "'" : "," . "'" . dataperdb2($campo) . "'";
+	elseif($tipo_campi_tabella[$v] == "p")
+		$sqlins2 .= ($i == 0) ? "MD5('" . $campo . "')" : "," . "MD5('" . $campo . "')";
 	else
 		$sqlins2 .= ($i == 0) ? "" . $campo : "," . $campo;
 	$i++;

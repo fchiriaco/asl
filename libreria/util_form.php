@@ -8,7 +8,7 @@ $valid: funzione javascript per validare input
 */
 function form_crea($nome,$post_get,$script,$valid="")
 {
-  $tagstr = "<form id=\"$nome\"";
+  $tagstr = "<form role=\"form\" id=\"$nome\"";
   if ($post_get == 1)
    $tagstr .= " method=\"post\"";
   else
@@ -359,5 +359,186 @@ echo "</table>\n";
 form_chiudi();
 echo "\n</div>";
 }
+
+
+/* 
+
+funzione per creare una form generica
+autore: Francesco Chiriaco
+data: 07-08-20016
+nome funzione: form_generica
+parametri:
+	$campi: array con la seguente struttura   array(tipo,valore,lunghezza,nome,etichetta)
+			  se si tratta di una select valore deve essere un array("chiave","valore");
+			  se si tratta  di una textarea valore deve essere array(valore,righe,colonne)
+	$nomeform: nome della form
+	$intestazione: intestazione del modulo
+	$campi_per_riga: numero di campi per riga, se vale 1 occorre scrivere in una colonna l'etichetta e nell'altra il campo
+	$azione: action della form
+	$classe_tabella_form: classe della tabella sfondo della form
+	$classe_input: classe caselle form
+	$metodo: metodo post o get per default 1 0 = get
+	$script_validazione: eventuale script javascript per validare l'input dell'utente
+
+esempio utilizzo
+
+
+$campi[] = array("tipo" => "select","valore" => $classi,"lunghezza" => 30,"nome" => "classi","etichetta" => "Adottato per le classi","multi" => 1);
+$campi[] = array("tipo" => "select","valore" => $materie,"lunghezza" => 30,"nome" => "idmateria","etichetta" => "Materia");
+$campi[] = array("tipo" => "text","valore" => "","lunghezza" => 70,"nome" => "titolo","etichetta" => "Titolo");
+$campi[] = array("tipo" => "text","valore" => "","lunghezza" => 70,"nome" => "autori","etichetta" => "Autori");
+$campi[] = array("tipo" => "text","valore" => "","lunghezza" => 70,"nome" => "editore","etichetta" => "Editore");
+$campi[] = array("tipo" => "text","valore" => 0,"lunghezza" => 6,"nome" => "prezzo","etichetta" => "Prezzo euro");
+$campi[] = array("tipo" => "text","valore" => "","lunghezza" => 70,"nome" => "note","etichetta" => "Altre Informazioni");
+$campi[] = array("tipo" => "submit","valore" => "Conferma","lunghezza" => 20,"nome" => "submit","etichetta" => "");
+form_generica_new($campi,"libri","Inserimento libri da vendere",$_SERVER["PHP_SELF"],"semplice3","stile3",1,1,"");
+*/
+
+function form_generica_new($campi,$nomeform,$intestazione,$azione,$classe_tabella_form="table table-responsive",$classe_input="form-control",$campi_per_riga=1,$metodo=1,$script_validazione="")
+{
+echo "<div class=\"text-center\">\n";
+if(isset($intestazione) && !empty($intestazione))
+	echo "<h3 class=\"alert alert-info text-center\">" . $intestazione . "</h3>\n";
+form_crea_multipart($nomeform,$metodo,$azione,$script_validazione);
+echo "\n<table class=\"{$classe_tabella_form}\">\n";
+$campo_riga = 0;
+for($i = 0;$i < count($campi);$i++)
+ {
+		if((($campo_riga % $campi_per_riga) == 0))
+		{
+			if ($campi_per_riga > 1)
+			{
+				if (($campi[$i]["tipo"] != "submit"))
+					echo "\n<tr>\n";
+				for ($j=$i;$j < $i + $campi_per_riga ;$j++)
+					if (isset($campi[$j + 1]) && ($campi[$j + 1]["tipo"] != "submit"))
+						{
+							if (($campi[$j]["tipo"] != "submit"))
+								echo "<th><label for=\"{$campi[$i]["nome"]}\">" . $campi[$j]["etichetta"] . "</label></th>\n";
+							else
+								$j = $i + $campi_per_riga;
+						}
+						
+						
+					else
+						{
+							if (($campi[$j]["tipo"] != "submit"))
+								echo "<th colspan=\"" .  ($i + $campi_per_riga - $j) .   "\"><label for=\"{$campi[$i]["nome"]}\">{$campi[$j]["etichetta"]}</label></th>\n";
+							
+							$j = $i + $campi_per_riga;
+						}
 	
+				
+				if (($campi[$i]["tipo"] != "submit"))
+					echo "</tr>\n<tr>\n";
+				
+			}
+			else
+				if (($campi[$i]["tipo"] != "submit"))
+					echo "\n<tr>\n<th><label for=\"{$campi[$i]["nome"]}\">" . $campi[$i]["etichetta"] . "</label></th>\n";
+				
+				
+				
+					
+					
+		}
+
+		
+		
+
+		if(($campi[$i]["tipo"] != "submit"))
+		{
+			if (($campi[$i]["tipo"] == "text") || ($campi[$i]["tipo"] == "file") || ($campi[$i]["tipo"] == "password"))
+				$paggiuntivi = " size=\"{$campi[$i]["lunghezza"]}\" maxlength=\"{$campi[$i]["lunghezza"]}\" ";
+			else
+				$paggiuntivi = "";
+			if(isset($campi[$i]["sololettura"]) && ($campi[$i]["sololettura"] == true) )
+				$paggiuntivi .= " disabled=\"disabled\" ";
+			if($campi[$i]["tipo"] == "textarea")
+			{
+				if(($campi[$i + 1]["tipo"] != "submit"))
+				{
+					echo "<td>";
+					echo "<textarea  name=\"{$campi[$i]["nome"]}\" id=\"{$campi[$i]["nome"]}\" rows=\"{$campi[$i]["valore"][1]}\" cols=\"{$campi[$i]["valore"][2]}\" class=\"" . ((isset($campi[$i]["classe"]) && ($campi[$i]["classe"] != "")) ? $campi[$i]["classe"]:$classe_input) . "\">";
+					echo $campi[$i]["valore"][0];
+					echo "</textarea>";
+					echo "</td>";
+				}
+				else
+				{
+					echo "<td colspan=\"" . ($campi_per_riga - $campo_riga) . "\">";
+					echo "<textarea  name=\"{$campi[$i]["nome"]}\" id=\"{$campi[$i]["nome"]}\"  rows=\"{$campi[$i]["valore"][1]}\" cols=\"{$campi[$i]["valore"][2]}\" class=\"" . ((isset($campi[$i]["classe"]) && ($campi[$i]["classe"] != "")) ? $campi[$i]["classe"]:$classe_input) . "\">";
+					echo $campi[$i]["valore"][0];
+					echo "</textarea>";
+					echo "</td>";
+				}
+			}
+			else
+			{	
+
+				if(($campi[$i]["tipo"] != "select"))
+					if(($campi[$i + 1]["tipo"] != "submit"))
+						echo "<td><input type=\"{$campi[$i]["tipo"]}\" name=\"{$campi[$i]["nome"]}\" id=\"{$campi[$i]["nome"]}\" value=\"{$campi[$i]["valore"]}\" class=\"" . ((isset($campi[$i]["classe"]) && ($campi[$i]["classe"] != "")) ? $campi[$i]["classe"]:$classe_input) . "\" {$paggiuntivi} /></td>";
+					else
+						echo "<td colspan=\"" . ($campi_per_riga - $campo_riga) . "\"><input type=\"{$campi[$i]["tipo"]}\" name=\"{$campi[$i]["nome"]}\" id=\"{$campi[$i]["nome"]}\" value=\"{$campi[$i]["valore"]}\" class=\""  . ((isset($campi[$i]["classe"]) && ($campi[$i]["classe"] != "")) ? $campi[$i]["classe"]:$classe_input) .  "\" {$paggiuntivi}  /></td>";
+				
+				else
+					{	unset($ke);
+						unset($va);
+						foreach($campi[$i]["valore"] as $k => $v)
+						{
+							$ke[] = $k;
+							$va[] = $v;
+						}
+				
+						if(($campi[$i + 1]["tipo"] != "submit"))
+							echo "<td>\n"; 
+						else
+							echo "<td colspan=\"" . ($campi_per_riga - $campo_riga) ."\">\n";
+						if($campi[$i]["multi"] == 1)
+ 							form_select($ke,$campi[$i]["nome"],$va,((isset($campi[$i]["classe"]) && ($campi[$i]["classe"] != "")) ? $campi[$i]["classe"]:$classe_input),"",1);
+						else
+							form_select($ke,$campi[$i]["nome"],$va,((isset($campi[$i]["classe"]) && ($campi[$i]["classe"] != "")) ? $campi[$i]["classe"]:$classe_input));
+							
+						echo "\n</td>\n";
+					}
+			}
+						
+			$campo_riga++;
+			if(($campo_riga % $campi_per_riga) == 0)
+			{
+				if (($campi[$i]["tipo"] != "submit"))
+					echo "</tr>\n";
+				$campo_riga = 0;
+			}
+			
+			
+			
+		}
+		else
+		{
+				if ($campi_per_riga != 1)
+					echo "<tr><td class=\"text-center;\" colspan=\"{$campi_per_riga}\">";
+				else
+					echo "<tr><td colspan=\"2\" class=\"text-center;\">";
+	
+				form_invia($campi[$i]["valore"],$campi[$i]["nome"],"",((isset($campi[$i]["classe"]) && ($campi[$i]["classe"] != "")) ? $campi[$i]["classe"]:$classe_input));
+				echo "</td></tr>\n";
+				$campo_riga = 0;
+
+		}
+			
+
+		
+
+		
+	
+ }
+if(($campo_riga % $campi_per_riga) != 0)
+	echo "</tr>\n";
+echo "</table>\n";
+form_chiudi();
+echo "\n</div>";
+}
+
 ?>

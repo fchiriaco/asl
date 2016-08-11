@@ -124,6 +124,8 @@ foreach($campi_tabella as $v)
 		$sqlupdate  .= ($i == 0) ? $v . "= '" . $campo . "'" : "," . $v . "= '" . $campo . "'";
 	elseif($tipo_campi_tabella[$v] == "d")
 		$sqlupdate  .= ($i == 0) ? $v . "= '" . dataperdb2($campo) . "'" : "," . $v . "= '" . dataperdb2($campo) . "'";
+	elseif($tipo_campi_tabella[$v] == "p")
+		$sqlupdate  .= ($i == 0) ? $v . "= MD5('" . $campo . "')" : "," . $v . "= MD5('" . $campo . "')";
 	else
 		$sqlupdate  .= ($i == 0) ? $v . "= " . $campo : "," . $v . "= " . $campo ;
 	$i++;
