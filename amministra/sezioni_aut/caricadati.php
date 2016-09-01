@@ -102,11 +102,11 @@ if($passati_valori_ricerca)
 					case "d":
 					if($i == 0)
 					{
-						$partewhere .= $v . " = '" . dataoerdb2($arricerca[$i]) . "' ";
+						$partewhere .= $v . " = '" . dataperdb2($arricerca[$i]) . "' ";
 					}
 					else
 					{
-						$partewhere .= "and " . $v . " = '" . dataoerdb2($arricerca[$i]) . "' ";
+						$partewhere .= "and " . $v . " = '" . dataperdb2($arricerca[$i]) . "' ";
 					}
 			}
 	
