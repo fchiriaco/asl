@@ -76,7 +76,7 @@ if($passati_valori_ricerca)
 {
 	foreach($campi_ricerca as $v)
 	{
-		if($passati_valori_ricerca && trim($arricerca[$i]) != "");
+		if($passati_valori_ricerca && trim($arricerca[$i]) != "")
 			switch($campi_ricerca_tipo[$v])
 			{
 				case "s":
