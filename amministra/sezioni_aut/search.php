@@ -3,10 +3,10 @@ session_start();
 include("configlocale.php");
 include("{$dirsito}config.php");
 include("{$dirsito}libreria/util_func2.php");
-if(!isset($_SESSION["aut"]) || ($_SESSION["aut"] != 1) || !isset($_SESSION["area"]) || (strpos($_SESSION["area"],$areaaut) === false) || !isset($_SESSION["amministratore"][$areaaut]) || ($_SESSION["amministratore"][$areaaut] != 1))
+if(!isset($_SESSION["login"]) || $_SESSION["login"] != "AUT_1_2015#" || $_SESSION["uname"] != "admin")
 {
-	
-	myalert("Utente non autorizzato","{$dirsitoscript}index.php");
+	session_destroy();
+	header("location: {$dirsitoscript}login.php");
 	exit;
 }
 include($dirsito . "libreria/util_dbnew.php");
@@ -72,17 +72,20 @@ foreach($campi_ricerca as $v)
 }
 
 $i = 0;
+$j = 0;
 if($passati_valori_ricerca)
 {
 	foreach($campi_ricerca as $v)
 	{
-		if($passati_valori_ricerca && trim($arricerca[$i]) != "");
+		if($passati_valori_ricerca && trim($arricerca[$i]) != "")
+		{
 			switch($campi_ricerca_tipo[$v])
 			{
 				case "s":
-					if($i == 0)
+					if($j == 0)
 					{
 						$partewhere .= $v . " like '" . $arricerca[$i] . "%' ";
+						$j++;
 					}
 					else
 					{
@@ -90,8 +93,9 @@ if($passati_valori_ricerca)
 					}
 					break;
 					case "n":
-					if($i == 0)
+					if($j == 0)
 					{
+						$j++;
 						$partewhere .= $v . " = " . $arricerca[$i] . " ";
 					}
 					else
@@ -100,19 +104,26 @@ if($passati_valori_ricerca)
 					}
 					break;
 					case "d":
-					if($i == 0)
+					if($j == 0)
 					{
+						$j++;
 						$partewhere .= $v . " = '" . dataperdb2($arricerca[$i]) . "' ";
 					}
 					else
 					{
 						$partewhere .= "and " . $v . " = '" . dataperdb2($arricerca[$i]) . "' ";
 					}
+					
 			}
 	
-	$i++;
+			
+		}
+		$i++;
 	}
 }
+
+
+
 if(trim($partewhere) == "")
 	$partewhere = "1";
 
@@ -125,9 +136,11 @@ $numerorighe = $r["nr"];
 $query = "select * from {$tabella} where " . $partewhere . " order by " . $orderby . " limit " . $startrec . "," . $righe;
 $rs = esegui_query($con,$query);
 
+
 if(numrec($rs) <= 0)
 {
 	$stringa .= '<h1 class="alert alert-danger text-center">Nessun record presente  in archivio</h1>';
+	
 	
 }
 $stringa .= '<div class="tabella"><table class="table table-responsive">';
