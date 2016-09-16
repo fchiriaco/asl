@@ -3,10 +3,10 @@ session_start();
 include("configlocale.php");
 include("{$dirsito}config.php");
 include("{$dirsito}libreria/util_func2.php");
-if(!isset($_SESSION["aut"]) || ($_SESSION["aut"] != 1) || !isset($_SESSION["area"]) || (strpos($_SESSION["area"],$areaaut) === false) || !isset($_SESSION["amministratore"][$areaaut]) || ($_SESSION["amministratore"][$areaaut] != 1))
+if(!isset($_SESSION["login"]) || $_SESSION["login"] != "AUT_1_2015#" || $_SESSION["uname"] != "admin")
 {
-	
-	myalert("Utente non autorizzato","{$dirsitoscript}index.php");
+	session_destroy();
+	header("location: {$dirsitoscript}login.php");
 	exit;
 }
 include($dirsito . "libreria/util_dbnew.php");
@@ -72,6 +72,7 @@ if(!empty($cricerca))
 	$passati_valori_ricerca = true;
 }
 $i = 0;
+$j = 0;
 if($passati_valori_ricerca)
 {
 	foreach($campi_ricerca as $v)
@@ -80,8 +81,9 @@ if($passati_valori_ricerca)
 			switch($campi_ricerca_tipo[$v])
 			{
 				case "s":
-					if($i == 0)
+					if($j == 0)
 					{
+						$j++;
 						$partewhere .= $v . " like '" . $arricerca[$i] . "%' ";
 					}
 					else
@@ -92,6 +94,7 @@ if($passati_valori_ricerca)
 					case "n":
 					if($i == 0)
 					{
+						$j++;
 						$partewhere .= $v . " = " . $arricerca[$i] . " ";
 					}
 					else
@@ -102,15 +105,17 @@ if($passati_valori_ricerca)
 					case "d":
 					if($i == 0)
 					{
+						$j++;
 						$partewhere .= $v . " = '" . dataperdb2($arricerca[$i]) . "' ";
 					}
 					else
 					{
 						$partewhere .= "and " . $v . " = '" . dataperdb2($arricerca[$i]) . "' ";
 					}
+					break;
 			}
 	
-	$i++;
+		$i++;
 	}
 }
 if(trim($partewhere) == "")
