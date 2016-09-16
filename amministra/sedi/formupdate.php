@@ -3,10 +3,10 @@ session_start();
 include("configlocale.php");
 include("{$dirsito}config.php");
 include("{$dirsito}libreria/util_func2.php");
-if(!isset($_SESSION["aut"]) || ($_SESSION["aut"] != 1) || !isset($_SESSION["area"]) || (strpos($_SESSION["area"],$areaaut) === false) || !isset($_SESSION["amministratore"][$areaaut]) || ($_SESSION["amministratore"][$areaaut] != 1))
+if(!isset($_SESSION["login"]) || $_SESSION["login"] != "AUT_1_2015#" || $_SESSION["uname"] != "admin")
 {
-	
-	myalert("Utente non autorizzato","{$dirsitoscript}index.php");
+	session_destroy();
+	header("location: {$dirsitoscript}login.php");
 	exit;
 }
 include($dirsito . "libreria/util_dbnew.php");
@@ -38,7 +38,10 @@ foreach($campi_tabella as $k => $v)
 {
 	$stringaupd .= '<div class="form-group" style="padding:5px;">';
 	$stringaupd .= '<label for="upd-' . $v . '">' . $k . ':</label>';
-	$stringaupd .= ' <input type="text" class="form-control" id="upd-' . $v .  '" name="upd-' . $v . '" value="' . $r[$v] . '">';
+	if($tipo_campi_tabella[$v] == "d")
+		$stringaupd .= ' <input type="text" class="form-control" id="upd-' . $v .  '" name="upd-' . $v . '" value="' . datadadb($r[$v]) . '">';
+	else
+		$stringaupd .= ' <input type="text" class="form-control" id="upd-' . $v .  '" name="upd-' . $v . '" value="' . $r[$v] . '">';
 	$stringaupd .= "</div>";
 }
 
